@@ -1,38 +1,69 @@
+// HomeFragment.java
 package com.example.proyectoidnp;
-
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    private TextView welcomeMessage;
-    private ImageView image1, image2, image3;
+    private ViewPager viewPager;
+    private ImagePagerAdapter adapter;
+    private Handler handler = new Handler(Looper.getMainLooper());
+    private int currentPage = 0;
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflar el layout para este fragmento
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // Configurar el mensaje de bienvenida
-        welcomeMessage = view.findViewById(R.id.welcome_message);
-        welcomeMessage.setText("¡Bienvenido a la aplicación de Edificaciones Históricas de Arequipa!");
+        // Configurar ViewPager con imágenes
+        viewPager = view.findViewById(R.id.viewpager_carrusel);
+        List<Integer> imageList = Arrays.asList(
+                R.drawable.santa_catalina,
+                R.drawable.catedral,
+                R.drawable.yanahuara,
+                R.drawable.molino_sabandia,
+                R.drawable.misti,
+                R.drawable.la_compania,
+                R.drawable.puente_fierro
+        );
 
-        // Configurar imágenes simples
-        image1 = view.findViewById(R.id.image1);
-        image1.setImageResource(R.drawable.edificacion1);
+        adapter = new ImagePagerAdapter(getContext(), imageList);
+        viewPager.setAdapter(adapter);
 
-        image2 = view.findViewById(R.id.image2);
-        image2.setImageResource(R.drawable.edificacion2);
-
-        image3 = view.findViewById(R.id.image3);
-        image3.setImageResource(R.drawable.edificacion3);
+        // Iniciar el deslizamiento automático
+        startAutoSlide();
 
         return view;
+    }
+
+    private void startAutoSlide() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (currentPage == adapter.getCount()) {
+                    currentPage = 0;
+                }
+                viewPager.setCurrentItem(currentPage++, true);
+                handler.postDelayed(this, 3000); // Cambia cada 3 segundos
+            }
+        }, 3000);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        handler.removeCallbacksAndMessages(null); // Detiene el deslizamiento al salir del fragmento
     }
 }

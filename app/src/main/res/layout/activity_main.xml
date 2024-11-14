@@ -18,6 +18,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_nav_menu"
-        app:itemIconTint="@color/colorPrimary"
-        app:itemTextColor="@color/colorPrimary"/>
+        app:itemIconTint="@color/colonial_background"
+        app:itemTextColor="@color/colonial_background"/>
 </RelativeLayout>

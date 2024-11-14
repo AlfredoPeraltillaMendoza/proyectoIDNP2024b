@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentMap.put(R.id.nav_home, new HomeFragment());
         fragmentMap.put(R.id.nav_info, new InfoFragment());
         fragmentMap.put(R.id.nav_profile, new ProfileFragment());
+        fragmentMap.put(R.id.nav_map, new MapFragment()); // Añade MapFragment aquí
 
         // Cargar el fragmento inicial
         if (savedInstanceState == null) {
@@ -51,3 +52,4 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 }
+

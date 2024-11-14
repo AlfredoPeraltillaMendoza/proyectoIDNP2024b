@@ -1,46 +1,113 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
+    android:background="@color/colonial_background"
     android:padding="16dp">
 
-    <!-- Mensaje de Bienvenida -->
+    <!-- Contenedor para el título y la descripción -->
+    <LinearLayout
+        android:id="@+id/title_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:paddingBottom="16dp">
+
+        <!-- Title TextView -->
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MirAQP"
+            android:textSize="32sp"
+            android:textColor="#D2691E"
+            android:fontFamily="cursive"
+            android:textStyle="bold"
+            android:paddingBottom="8dp"/>
+
+        <!-- Description TextView -->
+        <TextView
+            android:id="@+id/descriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bienvenido a MirAQP, tu guía para descubrir las maravillas de Arequipa. Explora y disfruta de su historia, cultura y arquitectura única."
+            android:textSize="16sp"
+            android:textColor="@color/colonial_text"
+            android:paddingTop="8dp"
+            android:fontFamily="serif"/>
+    </LinearLayout>
+
+    <!-- Imagen de bienvenida o logo central -->
+    <ImageView
+        android:id="@+id/img_logo"
+        android:layout_width="380dp"
+        android:layout_height="180dp"
+        android:layout_below="@id/title_container"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/misti"
+        android:contentDescription="@string/app_name"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/colonial_shadow"
+        android:elevation="4dp"
+        android:padding="4dp"/>
+
+    <!-- Descripción de la app o mensaje de bienvenida -->
     <TextView
-        android:id="@+id/welcome_message"
+        android:id="@+id/tv_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bienvenido "
-        android:textSize="22sp"
-        android:textColor="#000"
-        android:gravity="center"
-        android:textAlignment="center"
-        android:paddingBottom="16dp"/>
+        android:layout_below="@id/img_logo"
+        android:layout_centerInParent="true"
+        android:fontFamily="cursive"
+        android:justificationMode="none"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:text="Explora la historia y arquitectura de Arequipa"
+        android:textColor="@color/colonial_text"
+        android:textSize="20sp" />
 
-    <!-- Imágenes planas estáticas -->
-    <ImageView
-        android:id="@+id/image1"
+    <!-- Carrusel de imágenes (ViewPager o RecyclerView) -->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager_carrusel"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:src="@drawable/edificacion1"
-        android:scaleType="centerCrop"
-        android:layout_marginBottom="16dp"/>
+        android:layout_below="@id/tv_description"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colonial_shadow"
+        android:elevation="4dp"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:layout_marginTop="16dp"/>
 
-    <ImageView
-        android:id="@+id/image2"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:src="@drawable/edificacion2"
-        android:scaleType="centerCrop"
-        android:layout_marginBottom="16dp"/>
+    <!-- Sección de Noticias / Eventos Recientes -->
+    <TextView
+        android:id="@+id/tv_newsHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/viewpager_carrusel"
+        android:layout_marginTop="16dp"
+        android:text="Eventos Recientes"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"/>
 
-    <ImageView
-        android:id="@+id/image3"
+    <TextView
+        android:id="@+id/tv_newsItem"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:src="@drawable/edificacion3"
-        android:scaleType="centerCrop"/>
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_newsHeader"
+        android:layout_marginTop="8dp"
+        android:text="Festival Gastronómico - Próximo sábado en la Plaza Mayor"
+        android:textSize="14sp"
+        android:textColor="@android:color/black"/>
+
+</RelativeLayout>
+
+
+
+
+
+
 
 

@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">ProyectoIDNP</string>
+    <string name="app_name">MirAQP</string>
+    <string name="imagen_atractivo">Imagen del atractivo turístico</string>
 </resources>

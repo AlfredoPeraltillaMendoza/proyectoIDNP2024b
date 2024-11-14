@@ -10,4 +10,16 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="arequipa_terracota">#D2691E</color>
+    <color name="arequipa_white">#F5F5F5</color>
+    <color name="arequipa_gray">#A9A9A9</color>
+    <color name="arequipa_accent">#FF4500</color>
+    <color name="colonial_background">#EDE6DD</color> <!-- Fondo piedra (sillar) -->
+    <color name="colonial_title">#8B4513</color> <!-- Terracota oscuro para títulos -->
+    <color name="colonial_text">#4A4A4A</color> <!-- Gris oscuro para el texto -->
+    <color name="colonial_accent">#B8860B</color> <!-- Oro viejo para detalles y bordes -->
+    <color name="colonial_shadow">#D2B48C</color> <!-- Sombras y contornos -->
+    <color name="your_new_background_color">#3A3A3A</color> <!-- Color del fondo de la barra de herramientas -->
+    <color name="your_new_title_color">#FFFFFF</color> <!-- Color del texto del título -->
+
 </resources>
