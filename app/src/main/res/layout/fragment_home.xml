@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="MirAQP"
-            android:textSize="32sp"
+            android:textSize="45sp"
             android:textColor="#D2691E"
             android:fontFamily="cursive"
             android:textStyle="bold"
@@ -44,9 +44,8 @@
         android:layout_height="180dp"
         android:layout_below="@id/title_container"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/misti"
+        android:src="@drawable/escudo"
         android:contentDescription="@string/app_name"
-        android:scaleType="centerCrop"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/colonial_shadow"
         android:elevation="4dp"
@@ -81,26 +80,29 @@
         android:layout_marginTop="16dp"/>
 
     <!-- Sección de Noticias / Eventos Recientes -->
-    <TextView
-        android:id="@+id/tv_newsHeader"
+
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/viewpager_carrusel"
-        android:layout_marginTop="16dp"
-        android:text="Eventos Recientes"
-        android:textSize="18sp"
-        android:textColor="@android:color/black"
-        android:textStyle="bold"/>
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tv_newsItem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_newsHeader"
-        android:layout_marginTop="8dp"
-        android:text="Festival Gastronómico - Próximo sábado en la Plaza Mayor"
-        android:textSize="14sp"
-        android:textColor="@android:color/black"/>
+        <Button
+            android:id="@+id/btn_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Play" />
+
+        <Button
+            android:id="@+id/btn_pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pause"
+            android:layout_marginStart="16dp" />
+    </LinearLayout>
 
 </RelativeLayout>
 

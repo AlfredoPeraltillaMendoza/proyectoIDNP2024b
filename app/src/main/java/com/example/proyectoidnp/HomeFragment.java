@@ -1,5 +1,6 @@
-// HomeFragment.java
 package com.example.proyectoidnp;
+
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Bundle;
@@ -10,7 +11,8 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import java.util.ArrayList;
+import android.widget.Button;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,6 +47,22 @@ public class HomeFragment extends Fragment {
         // Iniciar el deslizamiento automático
         startAutoSlide();
 
+        // Configurar botones de reproducción
+        Button btnPlay = view.findViewById(R.id.btn_play);
+        Button btnPause = view.findViewById(R.id.btn_pause);
+
+        btnPlay.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), MusicService.class);
+            intent.setAction("PLAY");
+            getActivity().startService(intent);
+        });
+
+        btnPause.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), MusicService.class);
+            intent.setAction("PAUSE");
+            getActivity().startService(intent);
+        });
+
         return view;
     }
 
@@ -67,3 +85,4 @@ public class HomeFragment extends Fragment {
         handler.removeCallbacksAndMessages(null); // Detiene el deslizamiento al salir del fragmento
     }
 }
+

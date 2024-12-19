@@ -32,17 +32,34 @@ public class MapFragment extends Fragment {
         mapView.setMultiTouchControls(true);
 
         // Centra el mapa en una ubicación específica con un zoom inicial adecuado
-        mapView.getController().setCenter(new GeoPoint(-16.409047, -71.537451)); // Ejemplo de Arequipa
-        mapView.getController().setZoom(15.0); // Ajusta el nivel de zoom
+        mapView.getController().setCenter(new GeoPoint(-16.398761, -71.537451)); // Ejemplo de Arequipa
+        mapView.getController().setZoom(18.0); // Ajusta el nivel de zoom
 
         setupTouristAttractions();
 
         return view;
     }
 
-
     private void setupTouristAttractions() {
-        // Coordenadas de los atractivos turísticos
+        // Coordenadas y nombres de los atractivos turísticos
+        String[] names = {
+                "Monasterio de Santa Catalina",
+                "Catedral de Arequipa",
+                "Yanahuara",
+                "Molino de Sabandía",
+                "Museo Santuarios Andinos",
+                "Plaza de Armas",
+                "Misti",
+                "Puente de Fierro",
+                "La Compañía",
+                "Mirador de Sachaca",
+                "Barrio de San Lázaro",
+                "Cañón del Colca",
+                "Reserva Nacional de Salinas y Aguada Blanca",
+                "Petroglifos de Toro Muerto",
+                "Andenes de Yumina"
+        };
+
         double[][] touristAttractions = {
                 { -16.398803, -71.536928 }, // Monasterio de Santa Catalina
                 { -16.398761, -71.537451 }, // Catedral de Arequipa
@@ -52,12 +69,23 @@ public class MapFragment extends Fragment {
                 { -16.398766, -71.536921 }, // Plaza de Armas
                 { -16.295893, -71.405176 }, // Misti
                 { -16.403656, -71.534867 }, // Puente de Fierro
-                { -16.398791, -71.537500 }  // La Compañía
+                { -16.398791, -71.537500 }, // La Compañía
+                { -16.405701, -71.579672 }, // Mirador de Sachaca
+                { -16.399022, -71.535556 }, // Barrio de San Lázaro
+                { -15.622884, -71.979306 }, // Cañón del Colca
+                { -16.246847, -71.391579 }, // Reserva Nacional de Salinas y Aguada Blanca
+                { -16.153216, -72.477882 }, // Petroglifos de Toro Muerto
+                { -16.470100, -71.465500 }  // Andenes de Yumina
         };
 
-        for (double[] location : touristAttractions) {
+        for (int i = 0; i < touristAttractions.length; i++) {
+            double[] location = touristAttractions[i];
+            String name = names[i];
+
             Marker marker = new Marker(mapView);
             marker.setPosition(new GeoPoint(location[0], location[1]));
+            marker.setTitle(name); // Asigna el título al marcador
+            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM); // Asegura que el marcador y el texto estén alineados
             mapView.getOverlays().add(marker); // Añade el marcador al mapa
         }
     }
@@ -74,6 +102,8 @@ public class MapFragment extends Fragment {
         mapView.onPause(); // Necesario para el mapa
     }
 }
+
+
 
 
 

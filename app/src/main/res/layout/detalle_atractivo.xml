@@ -61,5 +61,14 @@
             android:layout_height="wrap_content"
             android:text="Enviar Comentario"
             android:layout_marginTop="16dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_comentarios"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:clipToPadding="false"
+            android:paddingBottom="8dp" />
+
     </LinearLayout>
 </ScrollView>

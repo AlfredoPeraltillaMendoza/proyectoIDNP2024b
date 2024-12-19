@@ -1,6 +1,6 @@
-// DetalleAtractivoFragment.java
 package com.example.proyectoidnp;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +13,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DetalleAtractivoFragment extends Fragment {
 
@@ -31,6 +34,11 @@ public class DetalleAtractivoFragment extends Fragment {
     private EditText etComentario;
     private Button btnEnviarComentario;
     private ViewPager viewPager;
+    private RecyclerView recyclerComentarios;
+
+    private DatabaseHelper databaseHelper;
+    private ComentarioAdapter comentarioAdapter;
+    private List<Comentario> comentarios;
 
     public static DetalleAtractivoFragment newInstance(String nombre, String descripcion, ArrayList<Integer> imagenes) {
         DetalleAtractivoFragment fragment = new DetalleAtractivoFragment();
@@ -55,8 +63,20 @@ public class DetalleAtractivoFragment extends Fragment {
         etComentario = view.findViewById(R.id.et_comentario);
         btnEnviarComentario = view.findViewById(R.id.btn_enviar_comentario);
         viewPager = view.findViewById(R.id.viewpager_imagenes);
+        recyclerComentarios = view.findViewById(R.id.recycler_comentarios);
 
-        // Obtener los argumentos pasados
+        // Configurar RecyclerView
+        recyclerComentarios.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // Inicializar lista de comentarios
+        comentarios = new ArrayList<>();
+        comentarioAdapter = new ComentarioAdapter(getContext(), comentarios);
+        recyclerComentarios.setAdapter(comentarioAdapter);
+
+        // Inicializar base de datos
+        databaseHelper = new DatabaseHelper(getContext());
+
+        // Obtener datos de los argumentos
         if (getArguments() != null) {
             nombre = getArguments().getString(ARG_NOMBRE);
             descripcion = getArguments().getString(ARG_DESCRIPCION);
@@ -66,25 +86,73 @@ public class DetalleAtractivoFragment extends Fragment {
             tvDescripcion.setText(descripcion);
         }
 
-        // Configurar ViewPager con las imágenes
-        ImagePagerAdapter adapter = new ImagePagerAdapter(getContext(), imagenes);
-        viewPager.setAdapter(adapter);
+        // Configurar ViewPager
+        if (imagenes != null && !imagenes.isEmpty()) {
+            ImagePagerAdapter adapter = new ImagePagerAdapter(getContext(), imagenes);
+            viewPager.setAdapter(adapter);
+        } else {
+            Toast.makeText(getContext(), "No hay imágenes disponibles", Toast.LENGTH_SHORT).show();
+        }
 
-        // Configurar botón de enviar comentario
+        // Cargar comentarios existentes
+        loadComentarios();
+
+        // Configurar botón para enviar comentario
         btnEnviarComentario.setOnClickListener(v -> {
-            float rating = ratingBar.getRating();
-            String comentario = etComentario.getText().toString().trim();
+            String comentarioTexto = etComentario.getText().toString().trim();
+            float ratingValue = ratingBar.getRating();
 
-            if (comentario.isEmpty()) {
+            if (comentarioTexto.isEmpty()) {
                 Toast.makeText(getContext(), "Por favor, escribe un comentario", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            Toast.makeText(getContext(), "Comentario enviado para " + nombre, Toast.LENGTH_SHORT).show();
-            etComentario.setText("");
-            ratingBar.setRating(0);
+            if (ratingValue == 0) {
+                Toast.makeText(getContext(), "Por favor, selecciona una calificación", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Obtener el último nombre de usuario registrado
+            String userName = databaseHelper.getLastUserName();
+
+            // Guardar comentario en la base de datos
+            boolean isSaved = databaseHelper.saveComentario(nombre, userName, comentarioTexto, ratingValue);
+            if (isSaved) {
+                Toast.makeText(getContext(), "Comentario guardado", Toast.LENGTH_SHORT).show();
+                Comentario nuevoComentario = new Comentario(userName, comentarioTexto, ratingValue);
+                comentarios.add(nuevoComentario);
+                comentarioAdapter.notifyDataSetChanged();
+
+                // Limpiar campos
+                etComentario.setText("");
+                ratingBar.setRating(0);
+            } else {
+                Toast.makeText(getContext(), "Error al guardar el comentario", Toast.LENGTH_SHORT).show();
+            }
         });
 
         return view;
     }
+
+    private void loadComentarios() {
+        Cursor cursor = databaseHelper.getComentarios(nombre);
+        while (cursor.moveToNext()) {
+            String userName = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_USER_NAME));
+            String comentarioTexto = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_COMENTARIO));
+            float ratingValue = cursor.getFloat(cursor.getColumnIndex(DatabaseHelper.COLUMN_RATING));
+            Comentario comentario = new Comentario(userName, comentarioTexto, ratingValue);
+            comentarios.add(comentario);
+        }
+        cursor.close();
+        comentarioAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (databaseHelper != null) {
+            databaseHelper.close();
+        }
+    }
 }
+
